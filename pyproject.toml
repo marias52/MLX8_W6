@@ -1,0 +1,29 @@
+[project]
+name = "preference-optimisation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md" 
+requires-python = ">=3.10"
+dependencies = [
+    "accelerate>=1.8.1",
+    "albumentations>=2.0.8",
+    "clip>=0.2.0",
+    "datasets==3.6.0",
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.10.3",
+    "nltk>=3.9.1",
+    "numpy==1.26.4",
+    "opencv-python>=4.11.0.86",
+    "pandas>=2.3.0",
+    "peft==0.16.0",
+    "pillow>=11.2.1",
+    "qwen-vl-utils>=0.0.11",
+    "streamlit>=1.46.1",
+    "torch==2.6",
+    "tqdm>=4.67.1",
+    "transformers>=4.53.0",
+    "wandb>=0.20.1",
+]
+
+[tool.uv.sources]
+clip = { git = "https://github.com/openai/CLIP.git" }
