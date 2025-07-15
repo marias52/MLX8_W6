@@ -50,8 +50,28 @@ def train_step_example(model, batch):
     return outputs.loss, outputs.logits
 
 if __name__ == "__main__":
-    model = QwenLoRAModel()
-    test_prompt = "Machine learning is a subset of artificial intelligence that focuses on algorithms and statistical models."
-    summary = model.generate(test_prompt, max_new_tokens=50)
-    print(f"Generated summary: {summary}")
+    print("Loading data and model...")
+    model, tokenized_ds = integrate_with_existing_pipeline()
+
+    print("Preparing dataloader...")
+    train_data = tokenized_ds["train"]
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=2)
+
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
+
+    print("Starting training loop...")
+    model.train()
+    for step, batch in enumerate(train_loader):
+        loss, _ = train_step_example(model, batch)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+        if step % 10 == 0:
+            print(f"Step {step} - Loss: {loss.item():.4f}")
+
+        if step == 100:
+            break  # stop early for testing
+
+    print("Saving model...")
     model.save_lora_weights("./qwen_lora_checkpoint")
