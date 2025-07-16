@@ -1,0 +1,15 @@
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_setup.py:_flush():80] Current SDK version is 0.21.0
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_setup.py:_flush():80] Configure stats pid to 4340
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_setup.py:_flush():80] Loading settings from /Users/admin/.config/wandb/settings
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_setup.py:_flush():80] Loading settings from /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/wandb/settings
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_setup.py:_flush():80] Loading settings from environment variables
+2025-07-15 16:28:40,531 INFO    MainThread:4340 [wandb_init.py:setup_run_log_directory():703] Logging user logs to /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/wandb/run-20250715_162840-gmksp22b/logs/debug.log
+2025-07-15 16:28:40,532 INFO    MainThread:4340 [wandb_init.py:setup_run_log_directory():704] Logging internal logs to /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/wandb/run-20250715_162840-gmksp22b/logs/debug-internal.log
+2025-07-15 16:28:40,532 INFO    MainThread:4340 [wandb_init.py:init():830] calling init triggers
+2025-07-15 16:28:40,532 INFO    MainThread:4340 [wandb_init.py:init():835] wandb.init called with sweep_config: {}
+config: {'model_name': 'Qwen/Qwen2-1.5B-Instruct', 'lora_rank': 16, 'lora_alpha': 32, 'lora_dropout': 0.1, 'learning_rate': 0.0002, 'batch_size': 8, 'num_epochs': 3, 'warmup_steps': 200, 'weight_decay': 0.01, 'max_length': 1024, 'max_new_tokens': 128, 'gradient_accumulation_steps': 4, 'logging_steps': 10, 'eval_steps': 100, 'save_steps': 500, '_wandb': {}}
+2025-07-15 16:28:40,532 INFO    MainThread:4340 [wandb_init.py:init():871] starting backend
+2025-07-15 16:28:40,765 INFO    MainThread:4340 [wandb_init.py:init():874] sending inform_init request
+2025-07-15 16:28:40,799 INFO    MainThread:4340 [wandb_init.py:init():882] backend started and connected
+2025-07-15 16:28:40,803 INFO    MainThread:4340 [wandb_init.py:init():953] updated telemetry
+2025-07-15 16:28:40,817 INFO    MainThread:4340 [wandb_init.py:init():977] communicating run to backend with 90.0 second timeout

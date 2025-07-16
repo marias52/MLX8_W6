@@ -1,0 +1,17 @@
+{"time":"2025-07-15T16:25:36.733212+01:00","level":"INFO","msg":"stream: starting","core version":"0.21.0"}
+{"time":"2025-07-15T16:25:36.994386+01:00","level":"INFO","msg":"stream: created new stream","id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:36.994429+01:00","level":"INFO","msg":"stream: started","id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:36.994486+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:36.994573+01:00","level":"INFO","msg":"handler: started","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:36.994633+01:00","level":"INFO","msg":"sender: started","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:37.129656+01:00","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:25:37.130237+01:00","level":"ERROR","msg":"runupserter: failed to init run","error":"returned error 404: {\"data\":{\"upsertBucket\":null},\"errors\":[{\"message\":\"entity your-entity-name not found during upsertBucket\",\"path\":[\"upsertBucket\"]}]}"}
+{"time":"2025-07-15T16:25:38.1367+01:00","level":"INFO","msg":"stream: closing","id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:38.138199+01:00","level":"ERROR","msg":"sender: uploadConfigFile: stream: no run"}
+{"time":"2025-07-15T16:25:38.320993+01:00","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:25:38.321053+01:00","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404: {\"data\":{\"createRunFiles\":null},\"errors\":[{\"message\":\"entity your-entity-name not found during createRunFiles\",\"path\":[\"createRunFiles\"]}]}"}
+{"time":"2025-07-15T16:25:38.32177+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-07-15T16:25:38.321828+01:00","level":"INFO","msg":"sender: closed","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:38.321956+01:00","level":"INFO","msg":"handler: closed","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:38.321977+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"3v3ggq6q"}
+{"time":"2025-07-15T16:25:38.321985+01:00","level":"INFO","msg":"stream: closed","id":"3v3ggq6q"}

@@ -1,0 +1,17 @@
+{"time":"2025-07-15T16:28:40.804509+01:00","level":"INFO","msg":"stream: starting","core version":"0.21.0"}
+{"time":"2025-07-15T16:28:41.060209+01:00","level":"INFO","msg":"stream: created new stream","id":"gmksp22b"}
+{"time":"2025-07-15T16:28:41.060242+01:00","level":"INFO","msg":"stream: started","id":"gmksp22b"}
+{"time":"2025-07-15T16:28:41.060369+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:41.060447+01:00","level":"INFO","msg":"handler: started","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:41.060536+01:00","level":"INFO","msg":"sender: started","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:41.175222+01:00","level":"ERROR","msg":"HTTP error","status":403,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:28:41.175466+01:00","level":"ERROR","msg":"runupserter: failed to init run","error":"returned error 403: {\"data\":{\"upsertBucket\":null},\"errors\":[{\"message\":\"permission denied\",\"path\":[\"upsertBucket\"],\"extensions\":{\"code\":\"PERMISSION_ERROR\"}}]}"}
+{"time":"2025-07-15T16:28:42.177747+01:00","level":"INFO","msg":"stream: closing","id":"gmksp22b"}
+{"time":"2025-07-15T16:28:42.178976+01:00","level":"ERROR","msg":"sender: uploadConfigFile: stream: no run"}
+{"time":"2025-07-15T16:28:42.369478+01:00","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:28:42.369681+01:00","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404: {\"data\":{\"createRunFiles\":null},\"errors\":[{\"message\":\"project marias52/QwenLoRA-Summarization not found during createRunFiles\",\"path\":[\"createRunFiles\"]}]}"}
+{"time":"2025-07-15T16:28:42.370917+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-07-15T16:28:42.371078+01:00","level":"INFO","msg":"handler: closed","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:42.371195+01:00","level":"INFO","msg":"sender: closed","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:42.37135+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"gmksp22b"}
+{"time":"2025-07-15T16:28:42.37165+01:00","level":"INFO","msg":"stream: closed","id":"gmksp22b"}

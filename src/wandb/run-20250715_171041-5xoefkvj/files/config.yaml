@@ -1,0 +1,75 @@
+_wandb:
+    value:
+        cli_version: 0.21.0
+        e:
+            pgqegw5tbroqa1b2hs4qke72o35v1n15:
+                codePath: src/train.py
+                codePathLocal: train.py
+                email: mariasharif.16@hotmail.com
+                executable: /Users/admin/Documents/ml_learning/week_6/preference_optimisation/.venv/bin/python3
+                git:
+                    commit: e484c4e1d35ad7509e765b52b4403d9283a3ac35
+                    remote: https://github.com/marias52/MLX8_W6.git
+                host: maria-2.local
+                os: macOS-14.5-arm64-arm-64bit
+                program: /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py
+                python: CPython 3.10.18
+                root: /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src
+                startedAt: "2025-07-15T16:10:41.227067Z"
+                writerId: pgqegw5tbroqa1b2hs4qke72o35v1n15
+        m: []
+        python_version: 3.10.18
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 98
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 98
+            "3":
+                - 16
+            "4": 3.10.18
+            "5": 0.21.0
+            "6": 4.53.2
+            "12": 0.21.0
+            "13": darwin-arm64
+batch_size:
+    value: 8
+eval_steps:
+    value: 100
+gradient_accumulation_steps:
+    value: 4
+learning_rate:
+    value: 0.0002
+logging_steps:
+    value: 10
+lora_alpha:
+    value: 32
+lora_dropout:
+    value: 0.1
+lora_rank:
+    value: 16
+max_length:
+    value: 1024
+max_new_tokens:
+    value: 128
+model_name:
+    value: Qwen/Qwen2-1.5B-Instruct
+num_epochs:
+    value: 3
+save_steps:
+    value: 500
+warmup_steps:
+    value: 200
+weight_decay:
+    value: 0.01

@@ -1,0 +1,5 @@
+4️⃣ Initializing model...
+Traceback (most recent call last):
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py", line 70, in <module>
+    device=device
+NameError: name 'device' is not defined

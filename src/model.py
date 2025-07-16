@@ -10,7 +10,7 @@ class QwenLoRAModel(nn.Module):
     def __init__(
         self,
         model_name: str = "Qwen/Qwen2-1.5B-Instruct",
-        lora_rank: int = 16,
+        lora_rank: int = 8,
         lora_alpha: int = 32,
         lora_dropout: float = 0.1,
         target_modules: Optional[list] = None,

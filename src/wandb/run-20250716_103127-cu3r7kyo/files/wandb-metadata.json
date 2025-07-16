@@ -1,0 +1,37 @@
+{
+  "os":  "macOS-14.5-arm64-arm-64bit",
+  "python":  "CPython 3.10.18",
+  "startedAt":  "2025-07-16T09:31:27.658891Z",
+  "program":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py",
+  "codePath":  "src/train.py",
+  "codePathLocal":  "train.py",
+  "git":  {
+    "remote":  "https://github.com/marias52/MLX8_W6.git",
+    "commit":  "e484c4e1d35ad7509e765b52b4403d9283a3ac35"
+  },
+  "email":  "mariasharif.16@hotmail.com",
+  "root":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src",
+  "host":  "maria-2.local",
+  "executable":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/.venv/bin/python3",
+  "cpu_count":  8,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "994662584320",
+      "used":  "322123296768"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "apple":  {
+    "name":  "Apple M1",
+    "ecpuCores":  4,
+    "pcpuCores":  4,
+    "gpuCores":  8,
+    "memoryGb":  16,
+    "swapTotalBytes":  "7516192768",
+    "ramTotalBytes":  "17179869184"
+  },
+  "writerId":  "nwh9i3j2w6p1t3umsx1uzu30x43qbsad"
+}

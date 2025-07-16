@@ -1,0 +1,6 @@
+2025-07-15 17:00:17,260 INFO    MainThread:7296 [wandb_init.py:setup_run_log_directory():703] Logging user logs to /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/wandb/run-20250715_170017-ta4ujx11/logs/debug.log
+2025-07-15 17:00:17,260 INFO    MainThread:7296 [wandb_init.py:setup_run_log_directory():704] Logging internal logs to /Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/wandb/run-20250715_170017-ta4ujx11/logs/debug-internal.log
+2025-07-15 17:00:17,260 INFO    MainThread:7296 [wandb_init.py:init():830] calling init triggers
+2025-07-15 17:00:17,260 INFO    MainThread:7296 [wandb_init.py:init():835] wandb.init called with sweep_config: {}
+config: {'model_name': 'Qwen/Qwen2-1.5B-Instruct', 'lora_rank': 16, 'lora_alpha': 32, 'lora_dropout': 0.1, 'learning_rate': 0.0002, 'batch_size': 8, 'num_epochs': 3, 'warmup_steps': 200, 'weight_decay': 0.01, 'max_length': 1024, 'max_new_tokens': 128, 'gradient_accumulation_steps': 4, 'logging_steps': 10, 'eval_steps': 100, 'save_steps': 500, '_wandb': {}}
+2025-07-15 17:00:18,107 INFO    MsgRouterThr:7296 [mailbox.py:close():129] [no run ID] Closing mailbox, abandoning 1 handles.

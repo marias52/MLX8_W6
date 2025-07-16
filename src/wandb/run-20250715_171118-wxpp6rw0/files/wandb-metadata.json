@@ -1,0 +1,17 @@
+{
+  "os":  "macOS-14.5-arm64-arm-64bit",
+  "python":  "CPython 3.10.18",
+  "startedAt":  "2025-07-15T16:11:18.888022Z",
+  "program":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py",
+  "codePath":  "src/train.py",
+  "codePathLocal":  "train.py",
+  "git":  {
+    "remote":  "https://github.com/marias52/MLX8_W6.git",
+    "commit":  "e484c4e1d35ad7509e765b52b4403d9283a3ac35"
+  },
+  "email":  "mariasharif.16@hotmail.com",
+  "root":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src",
+  "host":  "maria-2.local",
+  "executable":  "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/.venv/bin/python3",
+  "writerId":  "v0ip5qnm8irnba1fxj4ta6pzo77vw649"
+}

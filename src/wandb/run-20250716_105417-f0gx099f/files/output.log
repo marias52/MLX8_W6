@@ -1,0 +1,11 @@
+📋 Config: LORA_RANK=8, LORA_ALPHA=16, LR=0.0002
+4️⃣ Initializing model...
+🔄 Step 1: Loading tokenizer for Qwen/Qwen2-0.5B-Instruct...
+tokenizer_config.json: 1.29kB [00:00, 1.71MB/s]
+vocab.json: 2.78MB [00:00, 14.0MB/s]
+merges.txt: 1.67MB [00:00, 11.9MB/s]
+tokenizer.json: 7.03MB [00:00, 18.3MB/s]
+✅ Tokenizer loaded successfully
+🔄 Step 2: Loading base model Qwen/Qwen2-0.5B-Instruct...
+config.json: 100%|█| 659/659 
+model.safetensors:   7%| | 67

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py", line 51, in <module>
+    model_name=MODEL_NAME,
+NameError: name 'MODEL_NAME' is not defined

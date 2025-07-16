@@ -1,0 +1,17 @@
+{"time":"2025-07-15T16:21:08.529331+01:00","level":"INFO","msg":"stream: starting","core version":"0.21.0"}
+{"time":"2025-07-15T16:21:09.07882+01:00","level":"INFO","msg":"stream: created new stream","id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:09.07885+01:00","level":"INFO","msg":"stream: started","id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:09.078921+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:09.079009+01:00","level":"INFO","msg":"handler: started","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:09.079023+01:00","level":"INFO","msg":"sender: started","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:09.191218+01:00","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:21:09.191341+01:00","level":"ERROR","msg":"runupserter: failed to init run","error":"returned error 404: {\"data\":{\"upsertBucket\":null},\"errors\":[{\"message\":\"entity your-entity-name not found during upsertBucket\",\"path\":[\"upsertBucket\"]}]}"}
+{"time":"2025-07-15T16:21:10.193375+01:00","level":"INFO","msg":"stream: closing","id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:10.193686+01:00","level":"ERROR","msg":"sender: uploadConfigFile: stream: no run"}
+{"time":"2025-07-15T16:21:10.360108+01:00","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-07-15T16:21:10.360201+01:00","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404: {\"data\":{\"createRunFiles\":null},\"errors\":[{\"message\":\"entity your-entity-name not found during createRunFiles\",\"path\":[\"createRunFiles\"]}]}"}
+{"time":"2025-07-15T16:21:10.36057+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-07-15T16:21:10.360618+01:00","level":"INFO","msg":"handler: closed","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:10.360618+01:00","level":"INFO","msg":"sender: closed","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:10.360633+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"mvl3xgzt"}
+{"time":"2025-07-15T16:21:10.360738+01:00","level":"INFO","msg":"stream: closed","id":"mvl3xgzt"}

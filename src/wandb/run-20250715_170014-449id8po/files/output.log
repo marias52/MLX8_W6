@@ -1,0 +1,8 @@
+1️⃣  Starting script
+2️⃣ Loading dataset...
+3️⃣ Dataset loaded
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+Traceback (most recent call last):
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/train.py", line 73, in <module>
+    train_dataset = SummarizationDataset(ds["train"], model)
+NameError: name 'SummarizationDataset' is not defined
