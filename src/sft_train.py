@@ -1,17 +1,15 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-import wandb
 from tqdm import tqdm
 import os
 import json
 from datasets import load_dataset
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
+import numpy as np
 import nltk
 from nltk.translate.meteor_score import meteor_score
-from nltk.translate.bleu_score import corpus_bleu
-import numpy as np
-from model import QwenLoRAModel  # Your model class
+from model import QwenLoRAModel
 import pickle
 from typing import Dict, List, Any
 import torch.nn.functional as F
@@ -20,14 +18,11 @@ import time
 import traceback
 import gc
 
-# Download NLTK resources
-try:
-    nltk.download('wordnet', quiet=True)
-    nltk.download('punkt', quiet=True)
-except Exception as e:
-    print(f"Warning: Could not download NLTK data: {e}")
-
 print("1️⃣ Starting script")
+
+# Download NLTK resources
+nltk.download('wordnet', quiet=True)
+nltk.download('punkt', quiet=True)
 
 run_type = "train"  # Change to "sweep" or "train"
 print("RUNNING TYPE: ", run_type)
@@ -52,17 +47,48 @@ def clear_gpu_memory():
     """Clear GPU memory cache."""
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-        gc.collect()
+    gc.collect()
 
 def save_artifact(name: str, description: str):
-    """Save artifact to wandb."""
+    """Save model locally."""
     try:
-        artifact = wandb.Artifact(name=name, type="model", description=description)
+        print(f"💾 Saving {name}: {description}")
         if os.path.exists('data/model.pt'):
-            artifact.add_file('data/model.pt')
-        wandb.log_artifact(artifact)
+            print(f"✅ Model saved locally at data/model.pt")
     except Exception as e:
-        print(f"Warning: Could not save artifact: {e}")
+        print(f"❌ Error saving artifact: {e}")
+
+def compute_meteor(model, val_loader, device, max_len=128):
+    """Compute METEOR score on validation set."""
+    model.model.eval()
+    scores = []
+    
+    with torch.no_grad():
+        for sample in tqdm(val_loader, desc="Computing METEOR"):
+            try:
+                prompt = sample["prompt"][0]
+                actual_summary = sample["label"][0]
+                
+                generated_summary = model.generate(
+                    prompt,
+                    max_new_tokens=max_len,
+                    temperature=0.7,
+                    do_sample=True
+                )
+                
+                hyp_tokens = generated_summary.split()
+                ref_tokens = actual_summary.split()
+                
+                if len(hyp_tokens) > 0 and len(ref_tokens) > 0:
+                    meteor = meteor_score([ref_tokens], hyp_tokens)
+                    scores.append(meteor)
+            except Exception as e:
+                print(f"Error in generation: {e}")
+                scores.append(0.0)
+    
+    return sum(scores) / len(scores) if scores else 0.0
+
+
 
 # --- GLOBAL VARIABLES ---
 device = get_device()
@@ -81,23 +107,24 @@ except Exception as e:
     exit(1)
 
 # --- DEFAULT CONFIG ---
-default_wandb_config = {
-    "model_name": "Qwen/Qwen2-0.5B-Instruct",  # Smaller model to start
-    "lora_rank": 8,  # Reduced for memory
-    "lora_alpha": 16,  # Reduced proportionally
+default_config = {
+    "model_name": "Qwen/Qwen2-1.5B-Instruct",
+    "lora_rank": 16,
+    "lora_alpha": 32,
     "lora_dropout": 0.1,
     "learning_rate": 2e-4,
-    "batch_size": 2,  # Reduced for memory
+    "batch_size": 4,  # Reduced for memory
     "num_epochs": 3,
-    "warmup_steps": 100,  # Reduced
+    "warmup_steps": 200,
     "weight_decay": 0.01,
-    "max_length": 256,  # Reduced for memory
-    "max_new_tokens": 64,  # Reduced for memory
-    "gradient_accumulation_steps": 8,  # Increased to maintain effective batch size
+    "max_length": 512,  # Reduced for memory
+    "max_new_tokens": 128,
+    "gradient_accumulation_steps": 4,
     "logging_steps": 10,
     "eval_steps": 100,
     "save_steps": 500,
 }
+
 
 # --- ENHANCED QWEN MODEL CLASS ---
 class EnhancedQwenLoRAModel:
@@ -123,6 +150,9 @@ class EnhancedQwenLoRAModel:
             print(f"✅ Tokenizer loaded successfully")
             
             print(f"🔄 Step 2: Loading base model {model_name}...")
+            config_obj = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+            config_obj.attn_implementation = "eager"  # 👈 Explicitly override
+
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_name,
                 trust_remote_code=True,
@@ -130,7 +160,7 @@ class EnhancedQwenLoRAModel:
                 device_map="auto" if device.type == "cuda" else None,
                 low_cpu_mem_usage=True,
                 use_cache=False,  # Disable cache for training
-                attn_implementation="flash_attention_2" if device.type == "cuda" else "eager"
+                attn_implementation="eager"
             )
             
             print(f"✅ Base model loaded successfully")
@@ -362,46 +392,6 @@ def collate_fn(batch, tokenizer):
             "labels": torch.tensor([[-100]])
         }
 
-# --- METEOR CALCULATION ---
-def compute_meteor(model, val_loader, device, max_len=64):
-    """Compute METEOR score on validation set."""
-    model.model.eval()
-    scores = []
-    
-    print("🔄 Computing METEOR scores...")
-    
-    with torch.no_grad():
-        for i, sample in enumerate(tqdm(val_loader, desc="Computing METEOR")):
-            if i >= 10:  # Limit to 10 samples for speed
-                break
-                
-            try:
-                prompt = sample["prompt"][0]
-                actual_summary = sample["label"][0]
-                
-                # Generate summary
-                generated_summary = model.generate(
-                    prompt,
-                    max_new_tokens=max_len,
-                    temperature=0.7,
-                    do_sample=True
-                )
-                
-                # Compute METEOR score
-                hyp_tokens = generated_summary.split()
-                ref_tokens = actual_summary.split()
-                
-                if len(hyp_tokens) > 0 and len(ref_tokens) > 0:
-                    meteor = meteor_score([ref_tokens], hyp_tokens)
-                    scores.append(meteor)
-                    
-            except Exception as e:
-                print(f"❌ Error computing METEOR for sample {i}: {e}")
-                scores.append(0.0)
-    
-    avg_score = sum(scores) / len(scores) if scores else 0.0
-    print(f"✅ Average METEOR score: {avg_score:.4f}")
-    return avg_score
 
 # --- TRAINING FUNCTION ---
 def train():
@@ -434,10 +424,10 @@ def train():
     
     try:
         # Create datasets with limited samples for testing
-        train_subset = torch.utils.data.Subset(ds["train"], range(0, 50))  # Reduced for testing
+        train_subset = torch.utils.data.Subset(ds["train"], range(0, 100))  # Use 100 samples for training
         train_dataset = SummarizationDataset(train_subset, model)
         val_dataset = ValDataset(ds["valid"], model)
-        val_subset = torch.utils.data.Subset(val_dataset, range(0, 20))  # Reduced for testing
+        val_subset = torch.utils.data.Subset(val_dataset, range(0, 50))  # Use 50 samples for validation
         
         # Create collate function with tokenizer
         def collate_wrapper(batch):
@@ -490,8 +480,8 @@ def train():
     for epoch in range(config.num_epochs):
         print(f"🚀 --------- Epoch {epoch + 1}/{config.num_epochs} ---------")
         
-        # Create wandb table for sample predictions
-        caption_table = wandb.Table(columns=["batch", "predicted_summary", "target_summary", "loss"])
+        # Store sample predictions for logging
+        sample_predictions = []
         
         total_loss = 0.0
         num_batches = 0
@@ -536,15 +526,6 @@ def train():
                     if global_step % 10 == 0:
                         clear_gpu_memory()
                     
-                    # Log training metrics
-                    if global_step % config.logging_steps == 0:
-                        current_loss = loss.item() * config.gradient_accumulation_steps
-                        wandb.log({
-                            "train_loss": current_loss,
-                            "learning_rate": scheduler.get_last_lr()[0],
-                            "global_step": global_step,
-                            "epoch": epoch + 1
-                        })
                 
                 # Log sample predictions (only first 2 batches)
                 if batch_idx < 2:
@@ -561,12 +542,13 @@ def train():
                             print(f"Predicted: {pred_text[:100]}...")
                             print(f"Target: {target_text[:100]}...")
                             
-                            caption_table.add_data(
-                                batch_idx + 1,
-                                pred_text[:100] + "..." if len(pred_text) > 100 else pred_text,
-                                target_text[:100] + "..." if len(target_text) > 100 else target_text,
-                                loss.item() * config.gradient_accumulation_steps
-                            )
+                            # Store sample prediction
+                            sample_predictions.append({
+                                "batch": batch_idx + 1,
+                                "predicted": pred_text[:100] + "..." if len(pred_text) > 100 else pred_text,
+                                "target": target_text[:100] + "..." if len(target_text) > 100 else target_text,
+                                "loss": loss.item() * config.gradient_accumulation_steps
+                            })
                     except Exception as e:
                         print(f"❌ Error logging predictions: {e}")
                         
@@ -595,42 +577,30 @@ def train():
                 os.makedirs(checkpoint_path, exist_ok=True)
                 model.save_lora_weights(checkpoint_path)
                 
-                # Save as wandb artifact
-                artifact = wandb.Artifact(
-                    name="best_qwen_lora_model",
-                    type="model",
-                    description=f"Best LoRA model with METEOR {best_meteor:.4f}"
-                )
-                artifact.add_dir(checkpoint_path)
-                wandb.log_artifact(artifact)
-                
             except Exception as e:
                 print(f"❌ Error saving model: {e}")
         
         # Log epoch metrics
         try:
-            log_dict = {
-                "epoch": epoch + 1,
-                "epoch_loss": avg_epoch_loss,
-                "meteor": avg_meteor,
-                "best_meteor": best_meteor,
-                f"summaries_epoch_{epoch + 1}": caption_table
-            }
+            print(f"📊 Epoch {epoch + 1} Metrics:")
+            print(f"   - Average Loss: {avg_epoch_loss:.4f}")
+            print(f"   - METEOR Score: {avg_meteor:.4f}")
+            print(f"   - Best METEOR: {best_meteor:.4f}")
+            
+            # Log sample predictions
+            if sample_predictions:
+                print(f"   - Sample Predictions:")
+                for pred in sample_predictions:
+                    print(f"     Batch {pred['batch']}: Loss={pred['loss']:.4f}")
             
             # GPU memory logging
             if torch.cuda.is_available():
-                log_dict.update({
-                    "gpu_memory_allocated": torch.cuda.memory_allocated() / 1024**3,
-                    "gpu_memory_reserved": torch.cuda.memory_reserved() / 1024**3
-                })
-            
-            wandb.log(log_dict)
-            
+                gpu_allocated = torch.cuda.memory_allocated() / 1024**3
+                gpu_reserved = torch.cuda.memory_reserved() / 1024**3
+                print(f"   - GPU Memory: {gpu_allocated:.2f}GB allocated, {gpu_reserved:.2f}GB reserved")
+                
         except Exception as e:
-            print(f"❌ Error logging to wandb: {e}")
-        
-        # Clear memory after each epoch
-        clear_gpu_memory()
+            print(f"❌ Error logging metrics: {e}")
     
     # Save final model
     try:
@@ -648,30 +618,20 @@ def main():
     try:
         if run_type == "sweep":
             print("🔄 Running sweep mode")
-            
-            def train_sweep():
-                global config
-                wandb.init(project="QwenLoRA-Summarization")
-                config = wandb.config
-                train()
-            
-            sweep_id = wandb.sweep(sweep=sweep_configuration, project="QwenLoRA-Summarization")
-            wandb.agent(
-                sweep_id=sweep_id,
-                function=train_sweep,
-                count=10
-            )
+            print("❌ Sweep mode not available without wandb. Using default config instead.")
+            config = type('Config', (), default_config)()  # Convert dict to object
+            train()
             
         elif run_type == "train":
             print("🎯 Running single training")
-            wandb.init(project="QwenLoRA-Summarization", config=default_wandb_config)
-            config = wandb.config
+            config = type('Config', (), default_config)()  # Convert dict to object
             
-            print(f"📋 Config: LORA_RANK={config.lora_rank}, LORA_ALPHA={config.lora_alpha}, LR={config.learning_rate}")
+            # Extract config params
+            print(f"Running with LORA_RANK={config.lora_rank}, LORA_ALPHA={config.lora_alpha}, LR={config.learning_rate}")
             
             train()
 
-        wandb.finish()
+        print("✅ Training session completed!")
         
     except Exception as e:
         print(f"❌ Error in main: {e}")

@@ -1,0 +1,17 @@
+📋 Config: LORA_RANK=8, LORA_ALPHA=16, LR=0.0002
+4️⃣ Initializing model...
+🔄 Step 1: Loading tokenizer for Qwen/Qwen2-0.5B-Instruct...
+✅ Tokenizer loaded successfully
+🔄 Step 2: Loading base model Qwen/Qwen2-0.5B-Instruct...
+❌ Model initialization failed: name 'AutoConfig' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/sft_train.py", line 116, in __init__
+    config_obj = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+NameError: name 'AutoConfig' is not defined
+❌ Model initialization failed: name 'AutoConfig' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/sft_train.py", line 370, in train
+    model = EnhancedQwenLoRAModel(
+  File "/Users/admin/Documents/ml_learning/week_6/preference_optimisation/src/sft_train.py", line 116, in __init__
+    config_obj = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+NameError: name 'AutoConfig' is not defined
